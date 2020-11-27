@@ -6,10 +6,7 @@ builds:
       - windows
     goarch:
       - amd64
-      - 386
-    ignore:
-      - goos: darwin
-        goarch: 386
+      - arm64
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
@@ -17,3 +14,11 @@ release:
   github:
     owner: kazeburo
     name: git-version-next
+brews:
+  - description: "increments version (git tag) numbers simply"
+    tap:
+      owner: kazeburo
+      name: homebrew-tap
+    homepage: "https://github.com/kazeburo/git-version-next"
+    install: |
+      bin.install "git-version-next"
