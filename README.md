@@ -47,6 +47,8 @@ choose next version and enter
 
 Implement bump function.
 
+git-tag and push
+
 ```
 function bump {
   local NEXT=$(git version-next)
@@ -57,3 +59,19 @@ function bump {
   git push origin v$NEXT
 }
 ```
+
+update Makefile
+
+```
+function bump {
+  local NEXT=$(git version-next)
+  if [ -z $NEXT ]; then
+    exit 1
+  fi
+  perl -i -pe 's/^VERSION=.+$/VERSION='$NEXT'/' Makefile
+  git diff Makefile
+  git add Makefile
+  git commit -m $NEXT
+}
+```
+
