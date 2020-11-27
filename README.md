@@ -6,7 +6,17 @@ git-version-next increments version (git tag) numbers simply. Unlike git-bump, i
 
 ## Installation
 
-Download from GitHub Releases and drop it in your $PATH.
+### homebrew
+
+Use homebrew tap
+
+```
+homebrew install kazeburo/tap/git-version-next
+```
+
+### Download from GitHub Releases
+
+Download from GitHub Releases and copy it to your $PATH.
 
 ## Usage
 

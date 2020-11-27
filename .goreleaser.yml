@@ -17,3 +17,11 @@ release:
   github:
     owner: kazeburo
     name: git-version-next
+brews:
+  - description: "increments version (git tag) numbers simply"
+    github:
+      owner: kazeburo
+      name: homebrew-tap
+    homepage: "https://github.com/kazeburo/git-version-next"
+    install: |
+      bin.install "git-version-next"
