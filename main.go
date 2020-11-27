@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"runtime"
 	"sort"
 
 	"github.com/Masterminds/semver/v3"
@@ -13,10 +14,14 @@ import (
 	"github.com/manifoldco/promptui"
 )
 
+// version by Makefile
+var version string
+
 type cmdOpts struct {
-	Patch bool `long:"patch" description:"update patch version"`
-	Minor bool `long:"minor" description:"update minor version"`
-	Major bool `long:"major" description:"update major version"`
+	Patch   bool `long:"patch" description:"update patch version"`
+	Minor   bool `long:"minor" description:"update minor version"`
+	Major   bool `long:"major" description:"update major version"`
+	Version bool `short:"v" long:"version" description:"show version"`
 }
 
 func currentVersion(r *git.Repository) (*semver.Version, error) {
@@ -85,6 +90,13 @@ func _main(args []string) int {
 	opts := cmdOpts{}
 	psr := flags.NewParser(&opts, flags.HelpFlag|flags.PassDoubleDash)
 	args, err := psr.ParseArgs(args)
+	if opts.Version {
+		fmt.Fprintf(os.Stderr, "Version: %s\nCompiler: %s %s\n",
+			version,
+			runtime.Compiler,
+			runtime.Version())
+		os.Exit(0)
+	}
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "%v\n", err)
 		os.Exit(1)
