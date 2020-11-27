@@ -19,7 +19,6 @@ brews:
     tap:
       owner: kazeburo
       name: homebrew-tap
-      token: ${{ secrets.CR_PAT }}
     homepage: "https://github.com/kazeburo/git-version-next"
     install: |
       bin.install "git-version-next"
