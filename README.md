@@ -2,7 +2,7 @@
 
 This package is build based on https://github.com/b4b4r07/git-bump
 
-git-version-next increment version (git tag) numbers with semver. Unlike git-bump, it only displays the new version to STDOUT.
+git-version-next increments version (git tag) numbers simply. Unlike git-bump, it only displays the new version to STDOUT.
 
 ## Installation
 
