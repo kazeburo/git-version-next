@@ -11,12 +11,12 @@ archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 release:
-  tap:
+  github:
     owner: kazeburo
     name: git-version-next
 brews:
   - description: "increments version (git tag) numbers simply"
-    github:
+    tap:
       owner: kazeburo
       name: homebrew-tap
     homepage: "https://github.com/kazeburo/git-version-next"
