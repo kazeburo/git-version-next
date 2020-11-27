@@ -6,15 +6,12 @@ builds:
       - windows
     goarch:
       - amd64
-      - 386
-    ignore:
-      - goos: darwin
-        goarch: 386
+      - arm
 archives:
   - format: zip
     name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}"
 release:
-  github:
+  tap:
     owner: kazeburo
     name: git-version-next
 brews:
