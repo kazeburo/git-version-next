@@ -25,12 +25,13 @@ Usage:
   git-version-next [OPTIONS]
 
 Application Options:
-      --patch  update patch version
-      --minor  update minor version
-      --major  update major version
+      --patch    update patch version
+      --minor    update minor version
+      --major    update major version
+  -v, --version  show version
 
 Help Options:
-  -h, --help   Show this help message
+  -h, --help     Show this help message
 ```
 
 run `git version-next`
