@@ -1,15 +1,16 @@
 package main
 
 import (
+	"bufio"
+	"bytes"
 	"fmt"
 	"log"
 	"os"
+	"os/exec"
 	"runtime"
 	"sort"
 
 	"github.com/Masterminds/semver/v3"
-	"github.com/go-git/go-git/v5"
-	"github.com/go-git/go-git/v5/plumbing"
 	"github.com/jessevdk/go-flags"
 	"github.com/manifoldco/promptui"
 )
@@ -24,30 +25,31 @@ type cmdOpts struct {
 	Version bool `short:"v" long:"version" description:"show version"`
 }
 
-func currentVersion(r *git.Repository) (*semver.Version, error) {
-	iter, err := r.Tags()
+func currentVersion(pwd string) (*semver.Version, error) {
+	if pwd[len(pwd):] != "/" {
+		pwd = pwd + "/"
+	}
+
+	args := []string{}
+	args = append(args, fmt.Sprintf("--work-tree=%s", pwd))
+	args = append(args, fmt.Sprintf("--git-dir=%s.git/", pwd))
+	args = append(args, "tag")
+	cmd := exec.Command("git", args...)
+	cmd.Stderr = os.Stderr
+	outout, err := cmd.Output()
 	if err != nil {
 		return nil, err
 	}
-	var tags []string
-	if err := iter.ForEach(func(ref *plumbing.Reference) error {
-		if ref.Name().IsTag() {
-			tags = append(tags, ref.Name().Short())
-		}
-		return nil
-	}); err != nil {
-		return nil, err
-	}
-
+	scanner := bufio.NewScanner(bytes.NewReader(outout))
 	vs := make([]*semver.Version, 0)
-	for _, tag := range tags {
-		v, err := semver.NewVersion(tag)
+	for scanner.Scan() {
+		t := scanner.Text()
+		v, err := semver.NewVersion(t)
 		if err != nil {
 			continue
 		}
 		vs = append(vs, v)
 	}
-
 	if len(vs) == 0 {
 		initial, _ := semver.NewVersion("0.0.0")
 		return initial, nil
@@ -106,13 +108,8 @@ func _main(args []string) int {
 	if len(args) > 0 {
 		pwd = args[0]
 	}
-	r, err := git.PlainOpen(pwd)
-	if err != nil {
-		log.Printf("failed open repo: %v", err)
-		return 1
-	}
 
-	cv, err := currentVersion(r)
+	cv, err := currentVersion(pwd)
 	if err != nil {
 		log.Printf("failed to fetch tags: %v", err)
 		return 1
