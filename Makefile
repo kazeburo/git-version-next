@@ -5,11 +5,11 @@ all: git-version-next
 
 .PHONY: git-version-next
 
-git-version-next: main.go
-	go build $(LDFLAGS) -o git-version-next
+git-version-next: cmd/git-version-next/main.go internal/version/*.go
+	go build $(LDFLAGS) -o git-version-next cmd/git-version-next/main.go
 
-linux: main.go
-	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o git-version-next
+linux: cmd/git-version-next/main.go internal/version/*.go
+	GOOS=linux GOARCH=amd64 go build $(LDFLAGS) -o git-version-next cmd/git-version-next/main.go
 
 check:
 	go test ./...
