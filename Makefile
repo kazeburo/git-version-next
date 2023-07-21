@@ -1,4 +1,4 @@
-VERSION=0.0.7
+VERSION=0.1.0
 LDFLAGS=-ldflags "-w -s -X main.version=${VERSION}"
 
 all: git-version-next
