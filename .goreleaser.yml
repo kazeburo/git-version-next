@@ -1,5 +1,6 @@
 builds:
   - binary: git-version-next
+    main: ./cmd/git-version-next
     goos:
       - darwin
       - linux
